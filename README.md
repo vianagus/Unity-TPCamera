@@ -3,10 +3,8 @@
 
 <img src="./_Readme/tpcamera_preview.gif" alt="TPCamera Preview"/>
 
-<!--
 ## 🔗 Download
-unity package download: [click here](....)
--->
+download unity package: 👉 [TPCamera.unitypackage](https://github.com/vianagus/Unity-TPCamera/raw/main/_Unity%20Package/TPCamera.unitypackage) 👈
 
 ## ⚙ Installation
 1. Download and import the unity package into unity project.
