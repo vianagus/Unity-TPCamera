@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TPCamera : MonoBehaviour
 {
@@ -30,6 +29,7 @@ public class TPCamera : MonoBehaviour
     [Header("Clipping")]
     [SerializeField] float _clippingOffset = 0.5f;
     [SerializeField] float _heightClippingOffset = 0.5f;
+    [SerializeField] LayerMask _clippingLayer;
 
     // private position
     private float _distance;
@@ -93,7 +93,7 @@ public class TPCamera : MonoBehaviour
         _ray = new Ray(_lookAtPosition, (transform.position - _lookAtPosition).normalized);
         
         // detect collision and set camera distance
-        if(Physics.Raycast(_ray, out _raycastHit, rayDistance))
+        if(Physics.Raycast(_ray, out _raycastHit, rayDistance, _clippingLayer))
             _distance = _raycastHit.distance - _clippingOffset;
         else
             _distance = _maxDistance;
