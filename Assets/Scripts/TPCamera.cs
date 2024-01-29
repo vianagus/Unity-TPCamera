@@ -9,6 +9,10 @@ public class TPCamera : MonoBehaviour
     [SerializeField] Transform _follow;
     [SerializeField] Transform _lookAt;
 
+    // inspector look at
+    [Header("Look At")]
+    [SerializeField] Vector3 _lookAtOffset = new Vector3(0f, 2f, 0f);
+
     // inspector position
     [Header("Position")]
     [SerializeField] float _maxDistance = 10f;
@@ -21,15 +25,15 @@ public class TPCamera : MonoBehaviour
     [SerializeField] float _minPitch = -10f;
     [SerializeField] float _maxPitch = 60f;
 
-    // inspector look at
-    [Header("Look At")]
-    [SerializeField] float _lookAtHeight = 2f;
-    
-    // inspector clipping
-    [Header("Clipping")]
-    [SerializeField] float _clippingOffset = 0.5f;
-    [SerializeField] float _heightClippingOffset = 0.5f;
-    [SerializeField] LayerMask _clippingLayer;
+    // inspector obstacle detection
+    [Header("Obstacle Detection")]
+    [SerializeField] bool _avoidObstacle = true;
+    [SerializeField] LayerMask _obstacleLayer;
+    [SerializeField] float _distanceToObstacle = 0.5f;
+    [SerializeField] float _heightToObstacle = 0.5f;
+
+    // private look at position
+    private Vector3 _lookAtPosition;
 
     // private position
     private float _distance;
@@ -41,10 +45,7 @@ public class TPCamera : MonoBehaviour
     private float _pitch;
     private Quaternion _rotation;
 
-    // private look at position
-    private Vector3 _lookAtPosition;
-
-    // private raycast (for clipping)
+    // private raycasting (for obstacle detection)
     private Ray _ray;
     private RaycastHit _raycastHit;
 
@@ -65,10 +66,10 @@ public class TPCamera : MonoBehaviour
         HandleInput();
 
         // set final LookAt position
-        _lookAtPosition = _lookAt.position + Vector3.up * _lookAtHeight;
+        _lookAtPosition = _lookAt.position + Vector3.up;
 
         // handle clipping
-        HandleClipping(_maxDistance);
+        HandleObstacle(_maxDistance);
 
         // handle position
         HandlePosition();
@@ -87,16 +88,19 @@ public class TPCamera : MonoBehaviour
         _pitch -= Input.GetAxis("Mouse Y") * _pitchSensitivity;
     }
 
-    private void HandleClipping(float rayDistance)
+    private void HandleObstacle(float rayDistance)
     {
-        // set ray
-        _ray = new Ray(_lookAtPosition, (transform.position - _lookAtPosition).normalized);
-        
-        // detect collision and set camera distance
-        if(Physics.Raycast(_ray, out _raycastHit, rayDistance, _clippingLayer))
-            _distance = _raycastHit.distance - _clippingOffset;
-        else
-            _distance = _maxDistance;
+        if(_avoidObstacle)
+        {
+            // set ray
+            _ray = new Ray(_lookAtPosition, (transform.position - _lookAtPosition).normalized);
+            
+            // detect collision and set camera distance
+            if(Physics.Raycast(_ray, out _raycastHit, rayDistance, _obstacleLayer))
+                _distance = _raycastHit.distance - _distanceToObstacle;
+            else
+                _distance = _maxDistance;
+        }
     }
 
     private void HandlePosition()
@@ -106,7 +110,7 @@ public class TPCamera : MonoBehaviour
 
         // set target rotation and position
         _rotation = Quaternion.Euler(_pitch, _yaw, 0f);        
-        _position = _follow.position + Vector3.up * (_lookAtHeight + _heightClippingOffset) + _rotation * (Vector3.forward * -_distance);
+        _position = _follow.position + Vector3.up * (_lookAtOffset.y + _heightToObstacle) + _rotation * (Vector3.forward * -_distance);
 
         // set rotation and position
         transform.rotation = _rotation;
