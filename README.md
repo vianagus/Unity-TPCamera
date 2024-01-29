@@ -18,14 +18,21 @@ download unity package: 👉 [TPCamera.unitypackage](https://github.com/vianagus
 Adjust the following attributes to affect the camera movement.
 | Attribute                 | Type      | Description                                                   |
 | ---                       | ---       | ---                                                           |
-| `Follow`                  | Transform | target to follow                                              |
-| `Look At`                 | Transform | target to look at                                             |
-| `Max Distance`            | float     | maximum distance to target                                    |
-| `Smooth Damp`             | float     | affect smooth damp speed, value = 0 will disable smooth damp  |
-| `Yaw Sensitivity`         | float     | affect yaw speed                                              |
-| `Pitch Sensitivity`       | float     | affect pitch speed                                            |
-| `Min Pitch`               | float     | minimum pitch                                                 |
-| `Max Pitch`               | float     | maximum pitch                                                 |
-| `Look At Height`          | float     | `Look At`'s height offset                                     |
-| `Clipping Offset`         | float     | clipping offset                                               |
-| `Height Clipping Offset`  | float     | height clipping offset from ground                            |
+| **Target**                |           |                                                               |
+| `Follow`                  | Transform | Target to follow.                                             |
+| `Look At`                 | Transform | Targer to look at.                                            |
+| **Look At**               |           |                                                               |
+| `Look At Offset`          | float     | `Look At`'s offset position.                                  |
+| **Position**              |           |                                                               |
+| `Max Distance`            | float     | Maximum distance to target.                                   |
+| `Smooth Damp`             | float     | Smooth the movement, set valut to `0` will disable smooth.    |
+| **Rotation**              |           |                                                               |
+| `Yaw Sensitivity`         | float     | Affect yaw soeed.                                             |
+| `Pitch Sensitivity`       | float     | Affect pitch speed.                                           |
+| `Min Pitch`               | float     | Minimum pitch rotataion                                       |
+| `Max Pitch`               | float     | Maximum pitch rotation                                        |
+| **Obstacle Detection**    |           |                                                               |
+| `Avoid Obstacle`          | bool      | Enable or disable obstacle detection.                         |
+| `Obstacle Layer`          | LayerMask | Specifies layers as obstacle.                                 |
+| `Distance to Obstacle`    | float     | Distance to obstacle hit point.                               |
+| `Height to Obstacle`      | float     | Distance to obstacle in `y axis`.                             |
