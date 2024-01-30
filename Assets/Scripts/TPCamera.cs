@@ -66,7 +66,7 @@ public class TPCamera : MonoBehaviour
         HandleInput();
 
         // set final LookAt position
-        _lookAtPosition = _lookAt.position + Vector3.up;
+        _lookAtPosition = _lookAt.position + _lookAtOffset;
 
         // handle clipping
         HandleObstacle(_maxDistance);
